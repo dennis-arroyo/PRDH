@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "XDzgHPRpQcONcRduN0wCQVorAMimyiHmYPPWgrXTn2M=",
+  "Source": "PRDH_API",
+  "BasePath": "_content/PRDH_API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
