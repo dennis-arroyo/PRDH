@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "XDzgHPRpQcONcRduN0wCQVorAMimyiHmYPPWgrXTn2M=",
-  "Source": "PRDH_API",
-  "BasePath": "_content/PRDH_API",
+  "Hash": "oaInwhxJ5DkPec4nDQFvZiVQG0WjiHekew+U9N0TGnw=",
+  "Source": "PRDH",
+  "BasePath": "_content/PRDH",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

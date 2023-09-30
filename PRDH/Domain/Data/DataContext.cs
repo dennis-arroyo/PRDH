@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PRDH_API.Entities;
+using PRDH.Entities;
 
-namespace PRDH_API.Data;
+namespace PRDH.Data;
 
 public class DataContext : DbContext
 {

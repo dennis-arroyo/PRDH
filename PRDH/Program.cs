@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PRDH_API.Data;
+using PRDH.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

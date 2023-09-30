@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PRDH_API.Entities;
+namespace PRDH.Entities;
 
 public class Case
 {
