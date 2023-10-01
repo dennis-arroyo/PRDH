@@ -7,7 +7,7 @@ using PRDH.Data;
 
 #nullable disable
 
-namespace PRDH_API.Domain.Data.Migrations
+namespace PRDH.Domain.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
