@@ -5,7 +5,7 @@ using PRDH.Entities;
 namespace PRDH.Controllers;
 
 [ApiController]
-[Route("api/[controller]/cases")]
+[Route("api/[controller]/")]
 public class CasesController : ControllerBase
 {
 
@@ -22,8 +22,8 @@ public class CasesController : ControllerBase
     {
         var orderTests = await _workerService.GetOrderTests(orderTestId, orderTestCategory, orderTestType, 
             sampleCollectedStartDate, sampleCollectedEndDate, createdAtStartDate, createdAtEndDate);
-        
-        return Ok(orderTests);
+        var groupedData = orderTests.GroupBy(item => item.PatientId);
+        return Ok(groupedData);
     }
     
     [HttpGet("covid19Cases")]
