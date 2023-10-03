@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PRDH.Domain.Repositories.Interfaces;
 using PRDH.Domain.Services.Interfaces;
-using PRDH.Entities;
+using PRDH.Domain.Models;
 
 namespace PRDH.Domain.Services;
 
@@ -16,7 +16,7 @@ public class WorkerService : IWorkerService
         _workerRepository = workerRepository;
     }
 
-    public async Task<List<Order>> GetOrderTests(string orderTestId, string orderTestCategory, string orderTestType,
+    public async Task<List<LaboratoryTest>> GetOrderTests(string orderTestId, string orderTestCategory, string orderTestType,
         DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate, DateTime createdAtStartDate,
         DateTime createdAtEndDate)
     {
@@ -27,10 +27,6 @@ public class WorkerService : IWorkerService
         var uriBuilder = new UriBuilder($"{PRDH_API_URI}/{endpoint}");
         var query = new List<string>();
 
-        query.Add(!string.IsNullOrEmpty(orderTestId)
-            ? $"OrderTestId={Uri.EscapeDataString(orderTestId)}"
-            : $"OrderTestId={Uri.EscapeDataString("")}");
-
         void AddQueryParam(string paramName, string paramValue)
         {
             if (!string.IsNullOrWhiteSpace(paramValue))
@@ -39,8 +35,9 @@ public class WorkerService : IWorkerService
             }
         }
         
+        AddQueryParam("OrderTestId",orderTestId);
         AddQueryParam("OrderTestCategory",orderTestCategory);
-        AddQueryParam("OrderTestType",orderTestType);
+        AddQueryParam("OrderTestType","");
         AddQueryParam("SampleCollectedStartDate",$"{sampleCollectedStartDate:o}");
         AddQueryParam("SampleCollectedEndDate",$"{sampleCollectedEndDate:o}");
         AddQueryParam("CreatedAtStartDate",$"{createdAtStartDate:o}");
@@ -51,8 +48,48 @@ public class WorkerService : IWorkerService
         HttpResponseMessage response = await httpClient.GetAsync(uriBuilder.Uri);
         return response.IsSuccessStatusCode switch
         {
-            true => await response.Content.ReadFromJsonAsync<List<Order>>() ?? throw new InvalidOperationException(),
+            true => await response.Content.ReadFromJsonAsync<List<LaboratoryTest>>() ?? throw new InvalidOperationException(),
             _ => throw new HttpRequestException($"API request failed with status code: {response.StatusCode}")
         };
     }
+
+    public async Task<List<Case>> GenerateCovid19PositiveCases(string orderTestId, string orderTestCategory, string orderTestType,
+        DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate, DateTime createdAtStartDate,
+        DateTime createdAtEndDate)
+    {
+        var laboratoryTests = await GetOrderTests(orderTestId, orderTestCategory, orderTestType, sampleCollectedStartDate,
+            sampleCollectedEndDate, createdAtStartDate, createdAtEndDate);
+
+        var groupedOrderTests = laboratoryTests
+            .Where(test => test.OrderTestResult == "Positive")
+            .GroupBy(test => test.PatientId)
+            .ToList();
+
+        var cases = new List<Case>();
+
+        foreach (var testGroup in groupedOrderTests)
+        {
+            var firstPositiveTest = testGroup
+                .OrderBy(test => test.SampleCollectedDate)
+                .First();
+
+            cases.Add(new Case
+            {
+                CaseId = Guid.NewGuid(),
+                PatientId = firstPositiveTest.PatientId,
+                EarliestPositiveOrderTestSampleCollectedDate = firstPositiveTest.SampleCollectedDate,
+                EarliestPositiveOrderTestType = firstPositiveTest.OrderTestType,
+                OrderTestCount = testGroup.Count()
+            });
+        }
+
+        return cases;
+    }
+
+
+    //
+    // public async Task<List<Case>> GetCases(int page, int pageSize)
+    // {
+    //     
+    // }
 }
