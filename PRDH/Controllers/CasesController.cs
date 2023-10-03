@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PRDH.Domain.Services.Interfaces;
-using PRDH.Entities;
+using PRDH.Domain.Models;
 
 namespace PRDH.Controllers;
 
 [ApiController]
-[Route("api/[controller]/cases")]
+[Route("api/[controller]/")]
 public class CasesController : ControllerBase
 {
 
@@ -17,18 +17,21 @@ public class CasesController : ControllerBase
     }
 
     [HttpGet("orderTests")]
-    public async Task<ActionResult<Order>> GetOrderTests(string? orderTestId, string orderTestCategory, string orderTestType, 
+    public async Task<ActionResult<LaboratoryTest>> GetOrderTests(string? orderTestId, string orderTestCategory, string orderTestType, 
         DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate, DateTime createdAtStartDate, DateTime createdAtEndDate)
     {
         var orderTests = await _workerService.GetOrderTests(orderTestId, orderTestCategory, orderTestType, 
             sampleCollectedStartDate, sampleCollectedEndDate, createdAtStartDate, createdAtEndDate);
-        
-        return Ok(orderTests);
+        var groupedData = orderTests.GroupBy(item => item.PatientId).ToList();
+        return Ok(groupedData);
     }
     
     [HttpGet("covid19Cases")]
-    public async Task<ActionResult<Case>> GenerateCovid19PositiveCases()
+    public async Task<ActionResult<Case>> GenerateCovid19PositiveCases(string? orderTestId, string orderTestCategory, string orderTestType, 
+        DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate, DateTime createdAtStartDate, DateTime createdAtEndDate)
     {
-        return Ok();
+        var positiveCases = await _workerService.GenerateCovid19PositiveCases(orderTestId, orderTestCategory, orderTestType, 
+            sampleCollectedStartDate, sampleCollectedEndDate, createdAtStartDate, createdAtEndDate);
+        return Ok(positiveCases);
     }
 }

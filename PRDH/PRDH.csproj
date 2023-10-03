@@ -20,6 +20,7 @@
     <ItemGroup>
       <Folder Include="ClientApp\" />
       <Folder Include="Domain\Data\Migrations\" />
+      <Folder Include="Domain\Enums\" />
     </ItemGroup>
 
 </Project>

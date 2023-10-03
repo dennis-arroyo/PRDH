@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PRDH.Domain.Repositories.Interfaces;
 using PRDH.Data;
-using PRDH.Entities;
+using PRDH.Domain.Models;
 
 namespace PRDH.Domain.Repositories;
 
@@ -14,7 +14,7 @@ public class WorkerRepository : IWorkerRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public Task<ActionResult<List<Order>>> GenerateCovid19PositiveCases(string caseId, string patientId,
+    public Task<ActionResult<List<LaboratoryTest>>> GenerateCovid19PositiveCases(string caseId, string patientId,
         DateTime earliestPositiveOrderTestSampleCollectedDate, int orderTestCount)
     {
         throw new NotImplementedException();

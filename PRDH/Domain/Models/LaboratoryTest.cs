@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PRDH.Entities;
+﻿namespace PRDH.Domain.Models;
 
 public class LaboratoryTest
 {
-    [Key]
     public Guid OrderTestId { get; set; }
     public Guid PatientId { get; set; }
     public string? OrderTestType { get; set; }
