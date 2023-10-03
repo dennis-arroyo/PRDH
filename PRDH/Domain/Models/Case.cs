@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PRDH.Entities;
+namespace PRDH.Domain.Models;
 
 public class Case
 {
@@ -8,6 +8,6 @@ public class Case
     public Guid CaseId { get; set; }
     public Guid PatientId { get; set; }
     public DateTime EarliestPositiveOrderTestSampleCollectedDate { get; set; }
-    public DateTime EarliestPositiveOrderTestType { get; set; }
+    public string? EarliestPositiveOrderTestType { get; set; }
     public int OrderTestCount { get; set; }
 }
