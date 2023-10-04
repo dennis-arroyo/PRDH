@@ -34,4 +34,26 @@ public class CasesController : ControllerBase
             sampleCollectedStartDate, sampleCollectedEndDate, createdAtStartDate, createdAtEndDate);
         return Ok(positiveCases);
     }
+
+    [HttpGet("getCaseById")]
+    public async ValueTask<Case?> GetCaseById(string caseId)
+    {
+        var caseResult = await _workerService.GetCaseById(caseId);
+        return caseResult;
+    }
+    
+    [HttpGet("getCases")]
+    public async Task<List<Case>> GetCases(int page = 1, int pageSize = 10)
+    {
+        var caseResult = await _workerService.GetCases(page, pageSize);
+        return caseResult;
+    }
+    
+    [HttpGet("getCaseByDateRange")]
+    public async Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
+    {
+        var caseResult = await _workerService.GetCasesByDateRange(startDate, endDate, page, pageSize);
+        return caseResult;
+    }
+    
 }

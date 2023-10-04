@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PRDH.Domain.Repositories.Interfaces;
 using PRDH.Data;
 using PRDH.Domain.Models;
@@ -25,18 +26,36 @@ public class WorkerRepository : IWorkerRepository
         return cases;
     }
 
-    // public Task<ActionResult<Case>> FindAsync(Guid caseId)
+    public async ValueTask<Case?> FindAsync(Guid caseId)
+    {
+        return await _context.Cases.FindAsync(caseId);
+    }
+    
+    // public Task<ActionResult<List<Case>>> FindAllAsync(int page, int pageSize, DateTime sampleCollectedStartDate, 
+    //     DateTime sampleCollectedEndDate)
     // {
     //     throw new NotImplementedException();
     // }
     //
-    // public Task<ActionResult<List<Case>>> FindAllAsync(DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task<ActionResult<List<Case>>> FindAllAsync()
-    // {
-    //     throw new NotImplementedException();
-    // }
+    public async Task<List<Case>> GetCases(int page, int pageSize)
+    {
+        var skipCount = (page - 1) * pageSize;
+        return await _context.Cases
+            .Skip(skipCount)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+    
+    public async Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page, int pageSize)
+    {
+        var skipCount = (page - 1) * pageSize;
+        return await _context.Cases
+            .Where(c => c.EarliestPositiveOrderTestSampleCollectedDate >= startDate 
+                        && c.EarliestPositiveOrderTestSampleCollectedDate <= endDate)
+            .Skip(skipCount)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+    
+    
 }

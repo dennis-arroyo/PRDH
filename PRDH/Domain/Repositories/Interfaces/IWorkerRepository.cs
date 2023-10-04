@@ -6,7 +6,7 @@ namespace PRDH.Domain.Repositories.Interfaces;
 public interface IWorkerRepository
 {
     Task<List<Case>> AddCases(List<Case> cases);
-    // Task<ActionResult<Case>> FindAsync(Guid caseId);
-    // Task<ActionResult<List<Case>>> FindAllAsync(DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate);
-    // Task<ActionResult<List<Case>>> FindAllAsync();
+    ValueTask<Case?> FindAsync(Guid caseId);
+    Task<List<Case>> GetCases(int page, int pageSize);
+    Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page, int pageSize);
 }

@@ -1,4 +1,5 @@
-﻿using PRDH.Domain.Repositories.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using PRDH.Domain.Repositories.Interfaces;
 using PRDH.Domain.Services.Interfaces;
 using PRDH.Domain.Models;
 
@@ -86,10 +87,19 @@ public class WorkerService : IWorkerService
         return await _workerRepository.AddCases(cases);
     }
 
+    public async ValueTask<Case?> GetCaseById(string id)
+    {
+        var guidId = new Guid(id);
+        return await _workerRepository.FindAsync(guidId);
+    }
 
-    //
-    // public async Task<List<Case>> GetCases(int page, int pageSize)
-    // {
-    //     
-    // }
+    public async Task<List<Case>> GetCases(int page = 1, int pageSize = 10)
+    {
+        return await _workerRepository.GetCases(page, pageSize);
+    }
+
+    public async Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page, int pageSize)
+    {
+        return await _workerRepository.GetCasesByDateRange(startDate, endDate, page, pageSize);
+    }
 }
