@@ -5,6 +5,8 @@ namespace PRDH.Domain.Repositories.Interfaces;
 
 public interface IWorkerRepository
 {
-    Task<ActionResult<List<LaboratoryTest>>> GenerateCovid19PositiveCases(string caseId, string patientId, 
-        DateTime earliestPositiveOrderTestSampleCollectedDate, int orderTestCount);
+    Task<List<Case>> AddCases(List<Case> cases);
+    // Task<ActionResult<Case>> FindAsync(Guid caseId);
+    // Task<ActionResult<List<Case>>> FindAllAsync(DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate);
+    // Task<ActionResult<List<Case>>> FindAllAsync();
 }

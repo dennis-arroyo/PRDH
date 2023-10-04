@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PRDH.Domain.Repositories.Interfaces;
+﻿using PRDH.Domain.Repositories.Interfaces;
 using PRDH.Domain.Services.Interfaces;
 using PRDH.Domain.Models;
 
@@ -83,7 +82,8 @@ public class WorkerService : IWorkerService
             });
         }
 
-        return cases;
+        // return cases;
+        return await _workerRepository.AddCases(cases);
     }
 
 
