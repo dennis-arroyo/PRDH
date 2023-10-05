@@ -7,7 +7,7 @@ import {CovidCase} from "../covid-case";
   styleUrls: ['./covid-case-table.component.css']
 })
 
-export class CovidCaseTableComponent {
+export class CovidCaseTableComponent{
   @Input() covidCases: CovidCase[] | undefined;
   @Input() error: string | undefined;
   @Input() noDataError: boolean = false;

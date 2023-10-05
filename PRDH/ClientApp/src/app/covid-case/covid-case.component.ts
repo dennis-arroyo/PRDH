@@ -24,22 +24,32 @@ export class CovidCaseComponent implements OnInit {
 
   constructor(private covidCaseService: CovidCaseService, private formBuilder: FormBuilder) {}
 
-  async ngOnInit() {
-    try {
-      this.covidCases = await this.covidCaseService.getCases(1, 5);
-      if (!this.covidCases || this.covidCases.length === 0) {
-        this.error = 'No COVID cases available.';
-        this.noDataError = true;
-      }
-      console.log(this.covidCases);
-    } catch (err) {
-      this.error = 'Unable to fetch data. Please check your network connection.';
-      this.noDataError = false;
-    }
+  ngOnInit() {
+    this.fetchData();
   }
 
+  fetchData() {
+    this.covidCaseService.getCases(1, 5).subscribe({
+      next: (data) => {
+        this.covidCases = data;
+        if (!this.covidCases || this.covidCases.length === 0) {
+          this.error = 'No COVID cases available.';
+          this.noDataError = true;
+        }
+        console.log(this.covidCases);
+      },
+      error: (error) => {
+        this.error = 'Unable to fetch data. Please check your network connection.';
+        this.noDataError = false;
+        console.error(error); // Log the error for debugging purposes
+      }
+    });
+  }
+
+
+
   submit() {
-    console.log('');
+    this.fetchData();
   }
 
   get startDate() {return this.searchForm.get('startDate')}

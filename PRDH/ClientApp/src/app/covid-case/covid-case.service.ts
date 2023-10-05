@@ -11,27 +11,17 @@ export class CovidCaseService {
 
   constructor(private http: HttpClient) { }
 
-  public async getCases(page: number, pageSize: number) {
-    try {
-      let params = new HttpParams();
-      if (page) {
-        params = params.set('page', page.toString());
-      }
-      if (pageSize) {
-        params = params.set('pageSize', pageSize.toString());
-      }
-
-      const covidCases = await this.http.get<CovidCase[]>(`${this.endpoint}/api/Cases/getCases`, {
-        params: params
-      }).toPromise();
-
-      // const covidCases = await this.http.get<CovidCase[]>(`${this.endpoint}/page=${page}/pageSize=${pageSize}`).toPromise();
-
-      return covidCases;
-
-    } catch (err) {
-      console.log(err);
-      throw err;
+  public getCases(page: number, pageSize: number) {
+    let params = new HttpParams();
+    if (page) {
+      params = params.set('page', page.toString());
     }
+    if (pageSize) {
+      params = params.set('pageSize', pageSize.toString());
+    }
+
+    return this.http.get<CovidCase[]>(`${this.endpoint}/api/Cases/getCases`, {
+      params: params
+    });
   }
 }

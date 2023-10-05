@@ -1,9 +1,9 @@
 ﻿
 
 export class CovidCase {
-  CaseId: string = '';
-  PatientId: String = '';
-  EarliestPositiveOrderTestSampleCollectedDate: Date = new Date();
-  EarliestPositiveOrderTestType: string = ``;
-  OrderTestCount: number = 0;
+  caseId: string = '';
+  patientId: String = '';
+  earliestPositiveOrderTestSampleCollectedDate: Date = new Date();
+  earliestPositiveOrderTestType: string = ``;
+  orderTestCount: number = 0;
 }

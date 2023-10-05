@@ -10,7 +10,6 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Display error message if there's a network error -->
     <tr *ngIf="error && !noDataError">
       <td colspan="5" class="text-center">
         <div class="alert alert-danger">
@@ -18,7 +17,6 @@
         </div>
       </td>
     </tr>
-    <!-- Display error message for no data and provide a button to regenerate -->
     <tr *ngIf="error && noDataError">
       <td colspan="5" class="text-center">
         <div class="alert alert-warning">
@@ -28,13 +26,15 @@
       </td>
     </tr>
     <!-- Display data if available -->
-    <tr *ngFor="let covidCase of covidCases">
-      <th scope="row">{{covidCase.CaseId}}</th>
-      <td>{{covidCase.PatientId}}</td>
-      <td>{{covidCase.EarliestPositiveOrderTestSampleCollectedDate}}</td>
-      <td>{{covidCase.EarliestPositiveOrderTestType}}</td>
-      <td>{{covidCase.OrderTestCount}}</td>
-    </tr>
+    <ng-container *ngIf="covidCases">
+      <tr *ngFor="let covidCase of covidCases">
+        <th scope="row">{{covidCase.caseId}}</th>
+        <td>{{covidCase.patientId}}</td>
+        <td>{{covidCase.earliestPositiveOrderTestSampleCollectedDate}}</td>
+        <td>{{covidCase.earliestPositiveOrderTestType}}</td>
+        <td>{{covidCase.orderTestCount}}</td>
+      </tr>
+    </ng-container>
     </tbody>
   </table>
 </div>
