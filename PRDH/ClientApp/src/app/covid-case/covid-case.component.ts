@@ -10,7 +10,10 @@ import {Form, FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./covid-case.component.css']
 })
 export class CovidCaseComponent implements OnInit {
+
   covidCases: CovidCase[] | undefined;
+  error: string | undefined;
+  noDataError: boolean = false;
 
   searchForm = this.formBuilder.group({
     page: [null],
@@ -22,8 +25,17 @@ export class CovidCaseComponent implements OnInit {
   constructor(private covidCaseService: CovidCaseService, private formBuilder: FormBuilder) {}
 
   async ngOnInit() {
-    this.covidCases = await this.covidCaseService.getCases(1, 5);
-    console.log(this.covidCases);
+    try {
+      this.covidCases = await this.covidCaseService.getCases(1, 5);
+      if (!this.covidCases || this.covidCases.length === 0) {
+        this.error = 'No COVID cases available.';
+        this.noDataError = true;
+      }
+      console.log(this.covidCases);
+    } catch (err) {
+      this.error = 'Unable to fetch data. Please check your network connection.';
+      this.noDataError = false;
+    }
   }
 
   submit() {

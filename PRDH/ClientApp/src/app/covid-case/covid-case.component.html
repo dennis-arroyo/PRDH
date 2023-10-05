@@ -1,28 +1,21 @@
-<div class="container">
-  <div class="justify-content-center">
-    <div class="ibox-title">
-      <h2>Covid Positive Cases</h2>
+<div class="container mt-2">
+  <form [formGroup]="searchForm">
+    <div class="row">
+      <div class="col-6">
+        <label>Start Date</label>
+        <input formControlName="startDate" class="form-control" type="date">
+      </div>
+      <div class="col-6">
+        <label>End Date</label>
+        <input formControlName="endDate" class="form-control" type="date">
+      </div>
     </div>
-    <form [formGroup]="searchForm" >
-      <div class="ibox-content">
-        <div class="form-row">
-          <div class="col-3 form-group">
-            <label>Start Date<span class="text-danger">*</span></label>
-            <input formControlName="startDate" class="form-control" type="date" />
-          </div>
-        </div>
-        <div class="col-3 form-group">
-          <label>End Date<span class="text-danger">*</span></label>
-          <input formControlName="endDate" class="form-control" type="date" />
-        </div>
+    <div class="row mt-2 justify-content-end">
+      <div class="col-1">
+        <button class="btn btn-success" (click)="submit()">SEARCH</button>
       </div>
-      <div class="ibox-footer">
-        <div class="row justify-content-end mt-2">
-          <div class="col-2 text-right">
-            <button class="btn btn-success ml-2" (click)="submit()">SEARCH</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
+
+<app-covid-case-table *ngIf="covidCases !== undefined" [covidCases]="covidCases" [error]="error" [noDataError]="noDataError"></app-covid-case-table>
