@@ -1,0 +1,40 @@
+<div class="p-3">
+  <table class="table table-hover table-fixed table-striped">
+    <thead>
+    <tr>
+      <th>Sample Collected Date</th>
+      <th>Quantity of Cases</th>
+      <th>Molecular Tests</th>
+      <th>Antigens Tests</th>
+      <th>Self Made Antigens Tests</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="error && !noDataError">
+      <td colspan="5" class="text-center">
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="error && noDataError">
+      <td colspan="5" class="text-center">
+        <div class="alert alert-warning">
+          {{ error }}
+          <button class="btn btn-primary mt-2" (click)="regenerateData()">Regenerate Data</button>
+        </div>
+      </td>
+    </tr>
+    <!-- Display data if available -->
+    <ng-container *ngIf="covidCaseSummary">
+      <tr *ngFor="let covidCase of covidCaseSummary">
+        <th scope="row">{{covidCase.sampleCollectedDate}}</th>
+        <td>{{covidCase.quantityOfCases}}</td>
+        <td>{{covidCase.quantityOfCasesByMolecularTest}}</td>
+        <td>{{covidCase.quantityOfCasesByAntigensTest}}</td>
+        <td>{{covidCase.quantityOfCasesBySelfMadeAntigensTest}}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>

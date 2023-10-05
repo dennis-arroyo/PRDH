@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CovidCase} from "../covid-case";
+import {CovidCase} from "../interfaces/covid-case";
 
 @Component({
   selector: 'app-covid-case-table',

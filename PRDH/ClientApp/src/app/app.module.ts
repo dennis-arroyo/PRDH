@@ -7,13 +7,15 @@ import { CovidCaseComponent } from './covid-case/covid-case.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CovidCaseTableComponent } from './covid-case/covid-case-table/covid-case-table.component';
+import { CovidCaseSummaryTableComponent } from './covid-case/covid-case-summary-table/covid-case-summary-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CovidCaseComponent,
     NavbarComponent,
-    CovidCaseTableComponent
+    CovidCaseTableComponent,
+    CovidCaseSummaryTableComponent
   ],
   imports: [
     BrowserModule,

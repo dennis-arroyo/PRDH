@@ -49,6 +49,13 @@ public class CasesController : ControllerBase
         return caseResult;
     }
     
+    [HttpGet("getCovidCaseSummary")]
+    public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(int page = 1, int pageSize = 10)
+    {
+        var caseResult = await _workerService.GetCovidCaseSummary(page, pageSize);
+        return caseResult;
+    }
+    
     [HttpGet("getCaseByDateRange")]
     public async Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
     {

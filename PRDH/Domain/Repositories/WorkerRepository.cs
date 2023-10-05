@@ -41,8 +41,16 @@ public class WorkerRepository : IWorkerRepository
     {
         var skipCount = (page - 1) * pageSize;
         return await _context.Cases
+            .OrderBy(c => c.EarliestPositiveOrderTestSampleCollectedDate)
             .Skip(skipCount)
             .Take(pageSize)
+            .ToListAsync();
+    }
+    
+    public async Task<List<Case>> GetCasesForSummary()
+    {
+        return await _context.Cases
+            .OrderBy(c => c.EarliestPositiveOrderTestSampleCollectedDate)
             .ToListAsync();
     }
     

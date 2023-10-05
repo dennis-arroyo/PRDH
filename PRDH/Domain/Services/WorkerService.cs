@@ -97,6 +97,35 @@ public class WorkerService : IWorkerService
     {
         return await _workerRepository.GetCases(page, pageSize);
     }
+    
+    public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(int page = 1, int pageSize = 10)
+    {
+        // Retrieve all cases from the repository
+        var cases = await _workerRepository.GetCasesForSummary();
+
+        // Group cases by sample collected date
+        var groupedCases = cases
+            .GroupBy(c => c.EarliestPositiveOrderTestSampleCollectedDate.Date)
+            .Select(item => new CovidCaseSummary()
+            {
+                SampleCollectedDate = item.Key,
+                QuantityOfCases = item.Count(),
+                QuantityOfCasesByMolecularTest = item.Count(c => c.EarliestPositiveOrderTestType == "Molecular"),
+                QuantityOfCasesByAntigensTest = item.Count(c => c.EarliestPositiveOrderTestType == "Antigens"),
+                QuantityOfCasesBySelfMadeAntigensTest = item.Count(c => c.EarliestPositiveOrderTestType == "AntigensSelfTest"),
+                Cases = item.ToList()
+            })
+            .ToList();
+
+        // Calculate the total count of summaries (needed for pagination)
+        var totalCount = groupedCases.Count;
+
+        // Apply pagination to the summaries
+        var pagedSummaries = groupedCases.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        return pagedSummaries;
+    }
+
 
     public async Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page, int pageSize)
     {
