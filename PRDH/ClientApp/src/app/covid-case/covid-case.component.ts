@@ -12,6 +12,9 @@ import {CovidCaseSummary} from "./interfaces/covid-case-summary";
 })
 export class CovidCaseComponent implements OnInit {
 
+  private defaultStartDate: string = '2023-01-01';
+  private defaultEndDate: string = '2023-06-30';
+
   covidCases: CovidCase[] | undefined;
   covidCaseSummaries: CovidCaseSummary[] | undefined;
   error: string | undefined;
@@ -20,8 +23,8 @@ export class CovidCaseComponent implements OnInit {
   searchForm = this.formBuilder.group({
     page: [null],
     pageSize: [null],
-    startDate: [null],
-    endDate: [null]
+    startDate: [this.defaultStartDate],
+    endDate: [this.defaultEndDate]
   });
 
   constructor(private covidCaseService: CovidCaseService, private formBuilder: FormBuilder) {}
