@@ -28,7 +28,7 @@
     <!-- Display data if available -->
     <ng-container *ngIf="covidCaseSummary">
       <tr *ngFor="let covidCase of covidCaseSummary">
-        <th scope="row">{{covidCase.sampleCollectedDate}}</th>
+        <th scope="row">{{covidCase.sampleCollectedDate | date: 'longDate'}}</th>
         <td>{{covidCase.quantityOfCases}}</td>
         <td>{{covidCase.quantityOfCasesByMolecularTest}}</td>
         <td>{{covidCase.quantityOfCasesByAntigensTest}}</td>

@@ -52,7 +52,7 @@ export class CovidCaseComponent implements OnInit {
     this.covidCaseService.getCovidCaseSummaries(1, 5).subscribe({
       next: (data) => {
         this.covidCaseSummaries = data;
-        if (!this.covidCases || this.covidCases.length === 0) {
+        if (!this.covidCaseSummaries || this.covidCaseSummaries.length === 0) {
           this.error = 'No COVID cases available.';
           this.noDataError = true;
         }
@@ -67,7 +67,7 @@ export class CovidCaseComponent implements OnInit {
   }
 
   submit() {
-    this.fetchCases();
+    //
   }
 
   get startDate() {return this.searchForm.get('startDate')}
