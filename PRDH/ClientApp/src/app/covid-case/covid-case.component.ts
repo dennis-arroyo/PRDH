@@ -52,19 +52,19 @@ export class CovidCaseComponent implements OnInit {
   }
 
   fetchCovidCaseSummaries() {
-    let startDate = this.searchForm.get('startDate')?.value;
-    let endDate = this.searchForm.get('endDate')?.value;
-
+    let startDate = this.startDate?.value
+    let endDate = this.endDate?.value
+    console.log(startDate);
+    console.log(endDate);
     startDate = startDate ? startDate : this.defaultStartDate;
     endDate = endDate ? endDate : this.defaultEndDate;
-    this.covidCaseService.getCovidCaseSummaries(startDate, endDate, 1,32).subscribe({
+    this.covidCaseService.getCovidCaseSummaries(startDate, endDate, 1,10).subscribe({
       next: (data) => {
         this.covidCaseSummaries = data;
         if (!this.covidCaseSummaries || this.covidCaseSummaries.length === 0) {
           this.error = 'No COVID cases available.';
           this.noDataError = true;
         }
-        console.log(this.covidCases);
       },
       error: (error) => {
         this.error = 'Unable to fetch data. Please check your network connection.';
@@ -75,7 +75,7 @@ export class CovidCaseComponent implements OnInit {
   }
 
   submit() {
-    //
+    this.fetchCovidCaseSummaries();
   }
 
   get startDate() {return this.searchForm.get('startDate')}
