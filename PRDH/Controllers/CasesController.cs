@@ -27,7 +27,7 @@ public class CasesController : ControllerBase
     }
     
     [HttpGet("covid19Cases")]
-    public async Task<ActionResult<Case>> GenerateCovid19PositiveCases(string? orderTestId, string orderTestCategory, string orderTestType, 
+    public async Task<ActionResult<Case>> GenerateCovid19PositiveCases(string? orderTestId, string orderTestCategory, string? orderTestType, 
         DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate, DateTime createdAtStartDate, DateTime createdAtEndDate)
     {
         var positiveCases = await _workerService.GenerateCovid19PositiveCases(orderTestId, orderTestCategory, orderTestType, 

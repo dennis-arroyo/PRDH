@@ -20,7 +20,10 @@ public class WorkerService : IWorkerService
         DateTime sampleCollectedStartDate, DateTime sampleCollectedEndDate, DateTime createdAtStartDate,
         DateTime createdAtEndDate)
     {
-        var httpClient = new HttpClient();
+        var httpClient = new HttpClient
+        {
+            Timeout = Timeout.InfiniteTimeSpan
+        };
         var endpoint = "orders/tests/covid-19/minimal";
         
         // Create a UriBuilder and add query parameters
