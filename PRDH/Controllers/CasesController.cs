@@ -50,9 +50,9 @@ public class CasesController : ControllerBase
     }
     
     [HttpGet("getCovidCaseSummary")]
-    public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(int page = 1, int pageSize = 10)
+    public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
     {
-        var caseResult = await _workerService.GetCovidCaseSummary(page, pageSize);
+        var caseResult = await _workerService.GetCovidCaseSummary(startDate, endDate, page, pageSize);
         return caseResult;
     }
     

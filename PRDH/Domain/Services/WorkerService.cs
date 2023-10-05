@@ -98,10 +98,10 @@ public class WorkerService : IWorkerService
         return await _workerRepository.GetCases(page, pageSize);
     }
     
-    public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(int page = 1, int pageSize = 10)
+    public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
     {
         // Retrieve all cases from the repository
-        var cases = await _workerRepository.GetCasesForSummary();
+        var cases = await _workerRepository.GetCasesForSummary(startDate, endDate);
 
         // Group cases by sample collected date
         var groupedCases = cases

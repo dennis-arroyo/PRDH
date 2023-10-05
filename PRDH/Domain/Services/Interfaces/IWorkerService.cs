@@ -12,6 +12,6 @@ public interface IWorkerService
 
     ValueTask<Case?> GetCaseById(string id);
     Task<List<Case>> GetCases(int page, int pageSize);
-    Task<List<CovidCaseSummary>> GetCovidCaseSummary(int page, int pageSize);
+    Task<List<CovidCaseSummary>> GetCovidCaseSummary(DateTime startDate, DateTime endDate, int page, int pageSize);
     Task<List<Case>> GetCasesByDateRange(DateTime startDate, DateTime endDate, int page, int pageSize);
 }

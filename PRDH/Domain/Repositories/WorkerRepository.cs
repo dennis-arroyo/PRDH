@@ -47,9 +47,11 @@ public class WorkerRepository : IWorkerRepository
             .ToListAsync();
     }
     
-    public async Task<List<Case>> GetCasesForSummary()
+    public async Task<List<Case>> GetCasesForSummary(DateTime startDate, DateTime endDate)
     {
         return await _context.Cases
+            .Where(c => c.EarliestPositiveOrderTestSampleCollectedDate >= startDate.Date 
+                        && c.EarliestPositiveOrderTestSampleCollectedDate <= endDate.AddDays(1).Date)
             .OrderBy(c => c.EarliestPositiveOrderTestSampleCollectedDate)
             .ToListAsync();
     }

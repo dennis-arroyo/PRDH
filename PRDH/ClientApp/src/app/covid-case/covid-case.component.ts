@@ -52,7 +52,12 @@ export class CovidCaseComponent implements OnInit {
   }
 
   fetchCovidCaseSummaries() {
-    this.covidCaseService.getCovidCaseSummaries(1, 5).subscribe({
+    let startDate = this.searchForm.get('startDate')?.value;
+    let endDate = this.searchForm.get('endDate')?.value;
+
+    startDate = startDate ? startDate : this.defaultStartDate;
+    endDate = endDate ? endDate : this.defaultEndDate;
+    this.covidCaseService.getCovidCaseSummaries(startDate, endDate, 1,32).subscribe({
       next: (data) => {
         this.covidCaseSummaries = data;
         if (!this.covidCaseSummaries || this.covidCaseSummaries.length === 0) {

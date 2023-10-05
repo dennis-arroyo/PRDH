@@ -26,15 +26,21 @@ export class CovidCaseService {
     });
   }
 
-  public getCovidCaseSummaries(page: number, pageSize: number) {
+  public getCovidCaseSummaries(startDate: string, endDate: string, page: number, pageSize: number) {
     let params = new HttpParams();
+    if (startDate) {
+      params = params.set('startDate', startDate);
+    }
+    if (endDate) {
+      params = params.set('endDate', endDate);
+    }
     if (page) {
       params = params.set('page', page.toString());
     }
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());
     }
-
+    console.log(params);
     return this.http.get<CovidCaseSummary[]>(`${this.endpoint}/api/Cases/getCovidCaseSummary`, {
       params: params
     });
