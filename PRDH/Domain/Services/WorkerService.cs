@@ -103,10 +103,8 @@ public class WorkerService : IWorkerService
     
     public async Task<List<CovidCaseSummary>> GetCovidCaseSummary(DateTime startDate, DateTime endDate, int page = 1, int pageSize = 10)
     {
-        // Retrieve all cases from the repository
         var cases = await _workerRepository.GetCasesForSummary(startDate, endDate);
 
-        // Group cases by sample collected date
         var groupedCases = cases
             .GroupBy(c => c.EarliestPositiveOrderTestSampleCollectedDate.Date)
             .Select(item => new CovidCaseSummary()
@@ -120,10 +118,9 @@ public class WorkerService : IWorkerService
             })
             .ToList();
 
-        // Calculate the total count of summaries (needed for pagination)
+        // I could use it in the future to display in the front-end the total amount of items for pagination.
         var totalCount = groupedCases.Count;
 
-        // Apply pagination to the summaries
         var pagedSummaries = groupedCases.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
         return pagedSummaries;

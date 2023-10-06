@@ -31,12 +31,6 @@ public class WorkerRepository : IWorkerRepository
         return await _context.Cases.FindAsync(caseId);
     }
     
-    // public Task<ActionResult<List<Case>>> FindAllAsync(int page, int pageSize, DateTime sampleCollectedStartDate, 
-    //     DateTime sampleCollectedEndDate)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
     public async Task<List<Case>> GetCases(int page, int pageSize)
     {
         var skipCount = (page - 1) * pageSize;

@@ -13,12 +13,12 @@ import {CovidCaseSummary} from "./interfaces/covid-case-summary";
 export class CovidCaseComponent implements OnInit {
 
   private defaultStartDate: string = '2023-01-01';
-  private defaultEndDate: string = '2023-06-30';
+  private defaultEndDate: string = '2023-01-10';
   public page: number = 1;
   public pageSize: number = 10;
   public disablePagination: boolean = false;
 
-  covidCases: CovidCase[] | undefined;
+  // covidCases: CovidCase[] | undefined;
   covidCaseSummaries: CovidCaseSummary[] | undefined;
   error: string | undefined;
   noDataError: boolean = false;
@@ -74,6 +74,7 @@ export class CovidCaseComponent implements OnInit {
       error: (error) => {
         this.error = 'Unable to fetch data. Please check your network connection.';
         this.noDataError = false;
+        this.disablePagination = true;
         console.error(error);
       }
     });
