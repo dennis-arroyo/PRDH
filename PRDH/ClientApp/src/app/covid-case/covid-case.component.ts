@@ -14,6 +14,9 @@ export class CovidCaseComponent implements OnInit {
 
   private defaultStartDate: string = '2023-01-01';
   private defaultEndDate: string = '2023-06-30';
+  public page: number = 1;
+  public pageSize: number = 10;
+  public disablePagination: boolean = false;
 
   covidCases: CovidCase[] | undefined;
   covidCaseSummaries: CovidCaseSummary[] | undefined;
@@ -21,8 +24,6 @@ export class CovidCaseComponent implements OnInit {
   noDataError: boolean = false;
 
   searchForm = this.formBuilder.group({
-    page: [null],
-    pageSize: [null],
     startDate: [this.defaultStartDate],
     endDate: [this.defaultEndDate]
   });
@@ -30,52 +31,58 @@ export class CovidCaseComponent implements OnInit {
   constructor(private covidCaseService: CovidCaseService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.fetchCovidCaseSummaries();
+    this.fetchCovidCaseSummaries(this.page, this.pageSize);
   }
 
-  fetchCases() {
-    this.covidCaseService.getCases(1, 5).subscribe({
-      next: (data) => {
-        this.covidCases = data;
-        if (!this.covidCases || this.covidCases.length === 0) {
-          this.error = 'No COVID cases available.';
-          this.noDataError = true;
-        }
-        console.log(this.covidCases);
-      },
-      error: (error) => {
-        this.error = 'Unable to fetch data. Please check your network connection.';
-        this.noDataError = false;
-        console.error(error); // Log the error for debugging purposes
-      }
-    });
-  }
+  // For future use in case I want to retrieve the cases instead of summary.
+  // fetchCases() {
+  //   this.covidCaseService.getCases(1, 5).subscribe({
+  //     next: (data) => {
+  //       this.covidCases = data;
+  //       if (!this.covidCases || this.covidCases.length === 0) {
+  //         this.error = 'No COVID cases available.';
+  //         this.noDataError = true;
+  //       }
+  //     },
+  //     error: (error) => {
+  //       this.error = 'Unable to fetch data. Please check your network connection.';
+  //       this.noDataError = false;
+  //       console.error(error); // Log the error for debugging purposes
+  //     }
+  //   });
+  // }
 
-  fetchCovidCaseSummaries() {
+  fetchCovidCaseSummaries(page: number, pageSize: number = 10) {
+    this.page = page > 0 ? page : 1;
+    this.pageSize = pageSize;
     let startDate = this.startDate?.value
     let endDate = this.endDate?.value
-    console.log(startDate);
-    console.log(endDate);
     startDate = startDate ? startDate : this.defaultStartDate;
     endDate = endDate ? endDate : this.defaultEndDate;
-    this.covidCaseService.getCovidCaseSummaries(startDate, endDate, 1,10).subscribe({
+    this.covidCaseService.getCovidCaseSummaries(startDate, endDate, this.page,this.pageSize).subscribe({
       next: (data) => {
         this.covidCaseSummaries = data;
         if (!this.covidCaseSummaries || this.covidCaseSummaries.length === 0) {
           this.error = 'No COVID cases available.';
           this.noDataError = true;
+        } else {
+          this.noDataError = false;
+          this.error = undefined;
         }
+        this.disablePagination = this.covidCaseSummaries && this.covidCaseSummaries.length < 10;
       },
       error: (error) => {
         this.error = 'Unable to fetch data. Please check your network connection.';
         this.noDataError = false;
-        console.error(error); // Log the error for debugging purposes
+        console.error(error);
       }
     });
   }
 
   submit() {
-    this.fetchCovidCaseSummaries();
+    this.page = 1;
+    this.pageSize = 10;
+    this.fetchCovidCaseSummaries(this.page, this.pageSize);
   }
 
   get startDate() {return this.searchForm.get('startDate')}
