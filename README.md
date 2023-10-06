@@ -58,8 +58,6 @@ Clone the project into your local directory:
   - Command: git clone https://github.com/dennis-arroyo/PRDH.git
     
 Open your preferred IDE such as Visual Studio or Rider.
-   
-  - Click on open project or solution.
     
 Click on open project or solution.
 
@@ -69,7 +67,7 @@ To run the API, click Run.
 
 To run the client application, follow these steps:
 
-   - Upon up your command-line and navigate to the ClientApp directory.
+   - Open up your command-line and navigate to the ClientApp directory.
    - Type the command npm install
    - Type the command ng serve
    - The application should be running under http://localhost:4200
